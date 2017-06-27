@@ -4,4 +4,4 @@ version = "0.1.0"
 authors = ["kibbles"]
 
 [dependencies]
-libxdo="0.6"
+mio="0.6"
