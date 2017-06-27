@@ -1,5 +1,5 @@
 [package]
-name = "rust-do"
+name = "metal-sockets"
 version = "0.1.0"
 authors = ["kibbles"]
 
