@@ -3,14 +3,15 @@
 extern crate mio;
 
 use mio::*;
-use mio::tcp::{TcpListener, TcpStream};
+use mio::tcp::{TcpListener};
 
 use std::io::{Read, Write};
 use std::collections::HashMap;
 
 use std::str::from_utf8;
 
-const DEFAULT : usize = 0;
+mod client;
+mod server;
 
 const SERVER: Token = Token(0);
 
@@ -36,11 +37,11 @@ fn main() {
         for event in &events {
             match event.token() {
                 SERVER => {
-                    let (mut stream, _addr) = server.accept().unwrap();
+                    let (stream, _addr) = server.accept().unwrap();
                     let token = Token::from(client_no);
                     client_no += 1;
 
-                    if let Some(stream) = streams.insert(token, stream) {
+                    if let Some(_stream) = streams.insert(token, stream) {
                         panic!("Stream entry token filled.");
                     }
 
@@ -48,7 +49,9 @@ fn main() {
                                   PollOpt::edge()).unwrap();
                 }
                 client_token => {
-                    streams.get_mut(&client_token).unwrap().read(&mut buf);
+                    let stream = streams.get_mut(&client_token).unwrap();
+                    stream.read(&mut buf).unwrap();
+                    stream.write(&buf);
                     println!("Received Bytes: {}", from_utf8(&buf).unwrap());
                 }
             }
