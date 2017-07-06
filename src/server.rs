@@ -9,6 +9,7 @@ use std::collections::HashMap;
 pub struct Server {
     listener: TcpListener,
     clients: HashMap<Token, Client>,
+    poll: Poll,
     token_counter: usize,
 }
 
@@ -19,6 +20,7 @@ impl Server {
         Server {
             listener: TcpListener::bind(addr).unwrap(),
             clients: HashMap::new(),
+            poll: Poll::new().unwrap(),
             token_counter: 1,
         }
     }

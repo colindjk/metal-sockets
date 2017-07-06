@@ -1,6 +1,7 @@
 // Take a really long time with something simple, and it gets complicated.
 
 extern crate mio;
+extern crate http_muncher;
 
 use mio::*;
 use mio::tcp::{TcpListener};
